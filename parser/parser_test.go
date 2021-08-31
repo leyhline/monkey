@@ -2,16 +2,16 @@ package parser
 
 import (
 	"fmt"
-	"testing"
 	"leyhline.net/monkey/ast"
 	"leyhline.net/monkey/lexer"
+	"testing"
 )
 
 func TestLetStatements(t *testing.T) {
 	tests := []struct {
-		input string
+		input              string
 		expectedIdentifier string
-		expectedValue interface{}
+		expectedValue      interface{}
 	}{
 		{"let x = 5;", "x", 5},
 		{"let y = true;", "y", true},
@@ -73,7 +73,7 @@ func checkParserErrors(t *testing.T, p *Parser) {
 
 func TestReturnStatements(t *testing.T) {
 	tests := []struct {
-		input string
+		input         string
 		expectedValue interface{}
 	}{
 		{"return 5;", 5},
@@ -202,9 +202,9 @@ func TestBooleanExpression(t *testing.T) {
 
 func TestParsingPrefixExpression(t *testing.T) {
 	prefixTests := []struct {
-		input string
+		input    string
 		operator string
-		value interface{}
+		value    interface{}
 	}{
 		{"!5", "!", 5},
 		{"-15", "-", 15},
@@ -259,9 +259,9 @@ func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
 
 func TestParsingInfixExpression(t *testing.T) {
 	infixTests := []struct {
-		input string
-		leftValue interface{}
-		operator string
+		input      string
+		leftValue  interface{}
+		operator   string
 		rightValue interface{}
 	}{
 		{"5 + 5;", 5, "+", 5},
@@ -283,7 +283,7 @@ func TestParsingInfixExpression(t *testing.T) {
 		checkParserErrors(t, p)
 		if len(program.Statements) != 1 {
 			t.Fatalf("program.Statements does not contain %d statements. got=%d",
-			1, len(program.Statements))
+				1, len(program.Statements))
 		}
 		stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
 		if !ok {
@@ -298,7 +298,7 @@ func TestParsingInfixExpression(t *testing.T) {
 
 func TestOperatorPrecedenceParsing(t *testing.T) {
 	tests := []struct {
-		input string
+		input    string
 		expected string
 	}{
 		{"-a * b", "((-a) * b)"},
@@ -388,23 +388,23 @@ func testBooleanLiteral(t *testing.T, exp ast.Expression, value bool) bool {
 }
 
 func testInfixExpression(t *testing.T, exp ast.Expression, left interface{},
-			operator string, right interface{}) bool {
-		opExp, ok := exp.(*ast.InfixExpression)
-		if !ok {
-			t.Errorf("exp is not ast.InfixExpression. got=%T(%s)", exp, exp)
-			return false
-		}
-		if !testLiteralExpression(t, opExp.Left, left) {
-			return false
-		}
-		if opExp.Operator != operator {
-			t.Errorf("exp.Operator is not '%s'. got=%q", operator, opExp.Operator)
-			return false
-		}
-		if !testLiteralExpression(t, opExp.Right, right) {
-			return false
-		}
-		return true
+	operator string, right interface{}) bool {
+	opExp, ok := exp.(*ast.InfixExpression)
+	if !ok {
+		t.Errorf("exp is not ast.InfixExpression. got=%T(%s)", exp, exp)
+		return false
+	}
+	if !testLiteralExpression(t, opExp.Left, left) {
+		return false
+	}
+	if opExp.Operator != operator {
+		t.Errorf("exp.Operator is not '%s'. got=%q", operator, opExp.Operator)
+		return false
+	}
+	if !testLiteralExpression(t, opExp.Right, right) {
+		return false
+	}
+	return true
 }
 
 func TestIfExpression(t *testing.T) {
@@ -536,7 +536,7 @@ func TestFunctionLiteralParsing(t *testing.T) {
 
 func TestFunctionParameterParsing(t *testing.T) {
 	tests := []struct {
-		input string
+		input          string
 		expectedParams []string
 	}{
 		{input: "fn() {};", expectedParams: []string{}},

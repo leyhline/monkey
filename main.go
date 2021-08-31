@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"leyhline.net/monkey/repl"
 	"os"
 	"os/user"
-	"leyhline.net/monkey/repl"
 )
 
 const MONKEY_FACE = `            __,__

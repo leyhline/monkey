@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"leyhline.net/monkey/lexer"
-	"leyhline.net/monkey/parser"
 	"leyhline.net/monkey/evaluator"
+	"leyhline.net/monkey/lexer"
 	"leyhline.net/monkey/object"
+	"leyhline.net/monkey/parser"
 )
 
 const PROMT = ">> "

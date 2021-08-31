@@ -1,14 +1,14 @@
 package lexer
 
 import (
-	"testing"
 	"leyhline.net/monkey/token"
+	"testing"
 )
 
 func TestNextToken1(t *testing.T) {
 	input := `=+(){},;-!/*<>`
 	tests := []struct {
-		expectedType token.TokenType
+		expectedType    token.TokenType
 		expectedLiteral string
 	}{
 		{token.ASSIGN, "="},
@@ -49,7 +49,7 @@ let add = fn(x, y) {
 };
 let result = add(five, ten);`
 	tests := []struct {
-		expectedType token.TokenType
+		expectedType    token.TokenType
 		expectedLiteral string
 	}{
 		{token.LET, "let"},
@@ -114,7 +114,7 @@ func TestNextToken3(t *testing.T) {
 10 == 10;
 10 != 9;`
 	tests := []struct {
-		expectedType token.TokenType
+		expectedType    token.TokenType
 		expectedLiteral string
 	}{
 		{token.IF, "if"},

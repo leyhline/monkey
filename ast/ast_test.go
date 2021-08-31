@@ -1,13 +1,13 @@
 package ast
 
 import (
-	"testing"
 	"leyhline.net/monkey/token"
+	"testing"
 )
 
 func TestString(t *testing.T) {
 	program := &Program{
-		Statements: []Statement {
+		Statements: []Statement{
 			&LetStatement{
 				Token: token.Token{Type: token.LET, Literal: "let"},
 				Name: &Identifier{
