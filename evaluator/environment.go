@@ -1,4 +1,4 @@
-package object
+package evaluator
 
 type Environment struct {
 	store map[string]Object

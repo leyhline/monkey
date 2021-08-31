@@ -1,6 +1,6 @@
-package lexer
+package parser
 
-import "leyhline.net/monkey/token"
+import "leyhline.net/monkey/ast"
 
 type Lexer struct {
 	input        string
@@ -9,7 +9,7 @@ type Lexer struct {
 	ch           byte
 }
 
-func New(input string) *Lexer {
+func NewLexer(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
 	return l
@@ -25,70 +25,70 @@ func (l *Lexer) readChar() {
 	l.readPosition += 1
 }
 
-func (l *Lexer) NextToken() token.Token {
-	var tok token.Token
+func (l *Lexer) NextToken() ast.Token {
+	var tok ast.Token
 	l.skipWhitespace()
 	switch l.ch {
 	case '=':
 		if l.peekChar() == '=' {
 			l.readChar()
-			tok = token.Token{Type: token.EQ, Literal: "=="}
+			tok = ast.Token{Type: ast.EQ, Literal: "=="}
 		} else {
-			tok = newToken(token.ASSIGN, l.ch)
+			tok = newToken(ast.ASSIGN, l.ch)
 		}
 	case ';':
-		tok = newToken(token.SEMICOLON, l.ch)
+		tok = newToken(ast.SEMICOLON, l.ch)
 	case '(':
-		tok = newToken(token.LPAREN, l.ch)
+		tok = newToken(ast.LPAREN, l.ch)
 	case ')':
-		tok = newToken(token.RPAREN, l.ch)
+		tok = newToken(ast.RPAREN, l.ch)
 	case ',':
-		tok = newToken(token.COMMA, l.ch)
+		tok = newToken(ast.COMMA, l.ch)
 	case '+':
-		tok = newToken(token.PLUS, l.ch)
+		tok = newToken(ast.PLUS, l.ch)
 	case '-':
-		tok = newToken(token.MINUS, l.ch)
+		tok = newToken(ast.MINUS, l.ch)
 	case '!':
 		if l.peekChar() == '=' {
 			l.readChar()
-			tok = token.Token{Type: token.NOT_EQ, Literal: "!="}
+			tok = ast.Token{Type: ast.NOT_EQ, Literal: "!="}
 		} else {
-			tok = newToken(token.BANG, l.ch)
+			tok = newToken(ast.BANG, l.ch)
 		}
 	case '/':
-		tok = newToken(token.SLASH, l.ch)
+		tok = newToken(ast.SLASH, l.ch)
 	case '*':
-		tok = newToken(token.ASTERISK, l.ch)
+		tok = newToken(ast.ASTERISK, l.ch)
 	case '<':
-		tok = newToken(token.LT, l.ch)
+		tok = newToken(ast.LT, l.ch)
 	case '>':
-		tok = newToken(token.GT, l.ch)
+		tok = newToken(ast.GT, l.ch)
 	case '{':
-		tok = newToken(token.LBRACE, l.ch)
+		tok = newToken(ast.LBRACE, l.ch)
 	case '}':
-		tok = newToken(token.RBRACE, l.ch)
+		tok = newToken(ast.RBRACE, l.ch)
 	case 0:
 		tok.Literal = ""
-		tok.Type = token.EOF
+		tok.Type = ast.EOF
 	default:
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdentifier()
-			tok.Type = token.LookupIdent(tok.Literal)
+			tok.Type = ast.LookupIdent(tok.Literal)
 			return tok
 		} else if isDigit(l.ch) {
-			tok.Type = token.INT
+			tok.Type = ast.INT
 			tok.Literal = l.readNumber()
 			return tok
 		} else {
-			tok = newToken(token.ILLEGAL, l.ch)
+			tok = newToken(ast.ILLEGAL, l.ch)
 		}
 	}
 	l.readChar()
 	return tok
 }
 
-func newToken(tokenType token.TokenType, ch byte) token.Token {
-	return token.Token{Type: tokenType, Literal: string(ch)}
+func newToken(tokenType ast.TokenType, ch byte) ast.Token {
+	return ast.Token{Type: tokenType, Literal: string(ch)}
 }
 
 func (l *Lexer) readIdentifier() string {

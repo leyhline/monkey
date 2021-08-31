@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"io"
 	"leyhline.net/monkey/evaluator"
-	"leyhline.net/monkey/lexer"
-	"leyhline.net/monkey/object"
 	"leyhline.net/monkey/parser"
 )
 
@@ -14,7 +12,7 @@ const PROMT = ">> "
 
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
-	env := object.NewEnvironment()
+	env := evaluator.NewEnvironment()
 	for {
 		fmt.Fprintf(out, PROMT)
 		scanned := scanner.Scan()
@@ -22,8 +20,7 @@ func Start(in io.Reader, out io.Writer) {
 			return
 		}
 		line := scanner.Text()
-		l := lexer.New(line)
-		p := parser.New(l)
+		p := parser.New(line)
 		program := p.ParseProgram()
 		if len(p.Errors()) != 0 {
 			printParserErrors(out, p.Errors())

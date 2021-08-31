@@ -1,8 +1,6 @@
 package evaluator
 
 import (
-	"leyhline.net/monkey/lexer"
-	"leyhline.net/monkey/object"
 	"leyhline.net/monkey/parser"
 	"testing"
 )
@@ -36,16 +34,15 @@ func TestEvalIntegerExpression(t *testing.T) {
 	}
 }
 
-func testEval(input string) object.Object {
-	l := lexer.New(input)
-	p := parser.New(l)
+func testEval(input string) Object {
+	p := parser.New(input)
 	program := p.ParseProgram()
-	env := object.NewEnvironment()
+	env := NewEnvironment()
 	return Eval(program, env)
 }
 
-func testIntegerObject(t *testing.T, obj object.Object, expected int64) bool {
-	result, ok := obj.(*object.Integer)
+func testIntegerObject(t *testing.T, obj Object, expected int64) bool {
+	result, ok := obj.(*Integer)
 	if !ok {
 		t.Errorf("object is not Integer. got=%T (%+v)", obj, obj)
 		return false
@@ -88,8 +85,8 @@ func TestEvalBooleanExpression(t *testing.T) {
 	}
 }
 
-func testBooleanObject(t *testing.T, obj object.Object, expected bool) bool {
-	result, ok := obj.(*object.Boolean)
+func testBooleanObject(t *testing.T, obj Object, expected bool) bool {
+	result, ok := obj.(*Boolean)
 	if !ok {
 		t.Errorf("object is not Boolean. got=%T (%+v)", obj, obj)
 		return false
@@ -143,7 +140,7 @@ func TestIfElseExpression(t *testing.T) {
 	}
 }
 
-func testNullObject(t *testing.T, obj object.Object) bool {
+func testNullObject(t *testing.T, obj Object) bool {
 	if obj != NULL {
 		t.Errorf("object is not NULL. got=%T (%+v)", obj, obj)
 		return false
@@ -198,7 +195,7 @@ if (10 > 1) {
 	}
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)
-		errObj, ok := evaluated.(*object.Error)
+		errObj, ok := evaluated.(*Error)
 		if !ok {
 			t.Errorf("no error object returned. got=%T (%+v)", evaluated, evaluated)
 			continue
@@ -228,7 +225,7 @@ func TestLetStatements(t *testing.T) {
 func TestFunctionObject(t *testing.T) {
 	input := "fn(x) { x + 2; };"
 	evaluated := testEval(input)
-	fn, ok := evaluated.(*object.Function)
+	fn, ok := evaluated.(*Function)
 	if !ok {
 		t.Fatalf("object is not Function. got=%T (%+v)", evaluated, evaluated)
 	}

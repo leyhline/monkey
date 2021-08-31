@@ -2,7 +2,6 @@ package ast
 
 import (
 	"bytes"
-	"leyhline.net/monkey/token"
 	"strings"
 )
 
@@ -26,69 +25,69 @@ type Program struct {
 }
 
 type LetStatement struct {
-	Token token.Token
+	Token Token
 	Name  *Identifier
 	Value Expression
 }
 
 type ReturnStatement struct {
-	Token       token.Token
+	Token       Token
 	ReturnValue Expression
 }
 
 type Identifier struct {
-	Token token.Token
+	Token Token
 	Value string
 }
 
 type ExpressionStatement struct {
-	Token      token.Token
+	Token      Token
 	Expression Expression
 }
 
 type IntegerLiteral struct {
-	Token token.Token
+	Token Token
 	Value int64
 }
 
 type PrefixExpression struct {
-	Token    token.Token
+	Token    Token
 	Operator string
 	Right    Expression
 }
 
 type InfixExpression struct {
-	Token    token.Token
+	Token    Token
 	Left     Expression
 	Operator string
 	Right    Expression
 }
 
 type Boolean struct {
-	Token token.Token
+	Token Token
 	Value bool
 }
 
 type IfExpression struct {
-	Token       token.Token
+	Token       Token
 	Condition   Expression
 	Consequence *BlockStatement
 	Alternative *BlockStatement
 }
 
 type BlockStatement struct {
-	Token      token.Token
+	Token      Token
 	Statements []Statement
 }
 
 type FunctionLiteral struct {
-	Token      token.Token
+	Token      Token
 	Parameters []*Identifier
 	Body       *BlockStatement
 }
 
 type CallExpression struct {
-	Token     token.Token
+	Token     Token
 	Function  Expression
 	Arguments []Expression
 }
