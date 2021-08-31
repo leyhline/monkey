@@ -3,15 +3,13 @@ module leyhline.net/monkey/evaluator
 go 1.17
 
 require (
+	leyhline.net/monkey/ast v0.0.0
 	leyhline.net/monkey/lexer v0.0.0
 	leyhline.net/monkey/object v0.0.0
 	leyhline.net/monkey/parser v0.0.0
 )
 
-require (
-	leyhline.net/monkey/ast v0.0.0 // indirect
-	leyhline.net/monkey/token v0.0.0 // indirect
-)
+require leyhline.net/monkey/token v0.0.0 // indirect
 
 replace leyhline.net/monkey/lexer => ../lexer
 
