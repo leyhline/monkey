@@ -292,6 +292,7 @@ func TestStringConcatenation(t *testing.T) {
 		t.Errorf("String has wrong value. got=%q", str.Value)
 	}
 }
+<<<<<<< HEAD
 
 func TestBuiltinFunction(t *testing.T) {
 	tests := []struct {
@@ -321,3 +322,5 @@ func TestBuiltinFunction(t *testing.T) {
 		}
 	}
 }
+=======
+>>>>>>> 71d1432 (add string support)

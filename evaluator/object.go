@@ -17,7 +17,10 @@ const (
 	ERROR_OBJ        = "ERROR"
 	FUNCTION_OBJ     = "FUNCTION"
 	STRING_OBJ       = "STRING"
+<<<<<<< HEAD
 	BUILTIN_OBJ      = "BUILTIN"
+=======
+>>>>>>> 71d1432 (add string support)
 )
 
 type Object interface {
@@ -51,12 +54,15 @@ type String struct {
 	Value string
 }
 
+<<<<<<< HEAD
 type BuiltinFunction func(args ...Object) Object
 
 type Builtin struct {
 	Fn BuiltinFunction
 }
 
+=======
+>>>>>>> 71d1432 (add string support)
 type Null struct{}
 
 func (i *Integer) Type() ObjectType { return INTEGER_OBJ }
@@ -92,6 +98,9 @@ func (f *Function) Inspect() string {
 
 func (s *String) Type() ObjectType { return STRING_OBJ }
 func (s *String) Inspect() string { return s.Value }
+<<<<<<< HEAD
 
 func (b *Builtin) Type() ObjectType { return BUILTIN_OBJ }
 func (b *Builtin) Inspect() string { return "builtin function" }
+=======
+>>>>>>> 71d1432 (add string support)
