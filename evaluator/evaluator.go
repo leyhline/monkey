@@ -68,6 +68,22 @@ func Eval(node ast.Node, env *Environment) Object {
 		return applyFunction(function, args)
 	case *ast.StringLiteral:
 		return &String{Value: node.Value}
+	case *ast.ArrayLiteral:
+		elements := evalExpressions(node.Elements, env)
+		if len(elements) == 1 && isError(elements[0]) {
+			return elements[0]
+		}
+		return &Array{Elements: elements}
+	case *ast.IndexExpression:
+		left := Eval(node.Left, env)
+		if isError(left) {
+			return left
+		}
+		index := Eval(node.Index, env)
+		if isError(index) {
+			return index
+		}
+		return evalIndexExpression(left, index)
 	}
 	return nil
 }
@@ -278,4 +294,14 @@ func evalStringInfixExpression(operator string, left, right Object) Object {
 	leftVal := left.(*String).Value
 	rightVal := right.(*String).Value
 	return &String{Value: leftVal + rightVal}
+}
+
+func evalIndexExpression(array, index Object) Object {
+	arrayObject := array.(*Array)
+	idx := index.(*Integer).Value
+	max := int64(len(arrayObject.Elements) - 1)
+	if idx < 0 || idx > max {
+		return NULL
+	}
+	return arrayObject.Elements[idx]
 }
