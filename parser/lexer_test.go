@@ -47,7 +47,9 @@ let ten = 10;
 let add = fn(x, y) {
 	x + y;
 };
-let result = add(five, ten);`
+let result = add(five, ten);
+"foobar"
+"foo bar"`
 	tests := []struct {
 		expectedType    ast.TokenType
 		expectedLiteral string
@@ -88,6 +90,8 @@ let result = add(five, ten);`
 		{ast.IDENT, "ten"},
 		{ast.RPAREN, ")"},
 		{ast.SEMICOLON, ";"},
+		{ast.STRING, "foobar"},
+		{ast.STRING, "foo bar"},
 		{ast.EOF, ""},
 	}
 	l := NewLexer(input)
