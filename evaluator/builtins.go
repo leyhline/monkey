@@ -1,11 +1,14 @@
 package evaluator
 
+import "fmt"
+
 var builtins = map[string]*Builtin{
 	"len":   {Fn: builtinLen},
 	"first": {Fn: builtinFirst},
 	"last":  {Fn: builtinLast},
 	"rest":  {Fn: builtinRest},
 	"push":  {Fn: builtinPush},
+	"puts":  {Fn: builtinPuts},
 }
 
 func builtinLen(args ...Object) Object {
@@ -81,4 +84,11 @@ func builtinPush(args ...Object) Object {
 	copy(newElements, arr.Elements)
 	newElements[length] = args[1]
 	return &Array{Elements: newElements}
+}
+
+func builtinPuts(args ...Object) Object {
+	for _, arg := range args {
+		fmt.Println(arg.Inspect())
+	}
+	return NULL
 }
