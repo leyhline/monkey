@@ -6,7 +6,7 @@ import (
 )
 
 func TestNextToken1(t *testing.T) {
-	input := `=+(){},;-!/*<>[]`
+	input := `=+(){},;-!/*<>[]:`
 	tests := []struct {
 		expectedType    ast.TokenType
 		expectedLiteral string
@@ -27,6 +27,7 @@ func TestNextToken1(t *testing.T) {
 		{ast.GT, ">"},
 		{ast.LBRACKET, "["},
 		{ast.RBRACKET, "]"},
+		{ast.COLON, ":"},
 		{ast.EOF, ""},
 	}
 	l := NewLexer(input)

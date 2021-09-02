@@ -84,6 +84,8 @@ func Eval(node ast.Node, env *Environment) Object {
 			return index
 		}
 		return evalIndexExpression(left, index)
+	case *ast.HashLiteral:
+		return evalHashLiteral(node, env)
 	}
 	return nil
 }
@@ -296,7 +298,18 @@ func evalStringInfixExpression(operator string, left, right Object) Object {
 	return &String{Value: leftVal + rightVal}
 }
 
-func evalIndexExpression(array, index Object) Object {
+func evalIndexExpression(left, index Object) Object {
+	switch {
+	case left.Type() == ARRAY_OBJ && index.Type() == INTEGER_OBJ:
+		return  evalArrayIndexExpression(left, index)
+	case left.Type() == HASH_OBJ:
+		return evalHashIndexExpression(left, index)
+	default:
+		return newError("index operator not supported: %s", left.Type())
+	}
+}
+
+func evalArrayIndexExpression(array, index Object) Object {
 	arrayObject := array.(*Array)
 	idx := index.(*Integer).Value
 	max := int64(len(arrayObject.Elements) - 1)
@@ -304,4 +317,38 @@ func evalIndexExpression(array, index Object) Object {
 		return NULL
 	}
 	return arrayObject.Elements[idx]
+}
+
+func evalHashIndexExpression(hash, index Object) Object {
+	hashObject := hash.(*Hash)
+	key, ok := index.(Hashable)
+	if !ok {
+		return newError("unusable as hash key: %s", index.Type())
+	}
+	pair, ok := hashObject.Pairs[key.HashKey()]
+	if !ok {
+		return NULL
+	}
+	return pair.Value
+}
+
+func evalHashLiteral(node *ast.HashLiteral, env *Environment) Object {
+	pairs := make(map[HashKey]HashPair)
+	for keyNode, valueNode := range node.Pairs {
+		key := Eval(keyNode, env)
+		if isError(key) {
+			return key
+		}
+		hashKey, ok := key.(Hashable)
+		if !ok {
+			return newError("unusable as hash key: %s", key.Type())
+		}
+		value := Eval(valueNode, env)
+		if isError(value) {
+			return value
+		}
+		hashed := hashKey.HashKey()
+		pairs[hashed] = HashPair{Key: key, Value: value}
+	}
+	return &Hash{Pairs: pairs}
 }

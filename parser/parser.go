@@ -61,6 +61,7 @@ func New(input string) *Parser {
 	p.registerPrefix(ast.FUNCTION, p.parseFunctionLiteral)
 	p.registerPrefix(ast.STRING, p.parseStringLiteral)
 	p.registerPrefix(ast.LBRACKET, p.parseArrayLiteral)
+	p.registerPrefix(ast.LBRACE, p.parseHashLiteral)
 
 	p.infixParseFns = make(map[ast.TokenType]infixParseFn)
 	p.registerInfix(ast.PLUS, p.parseInfixExpression)
@@ -401,4 +402,26 @@ func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 		return nil
 	}
 	return exp
+}
+
+func (p *Parser) parseHashLiteral() ast.Expression {
+	hash := &ast.HashLiteral{Token: p.curToken}
+	hash.Pairs = make(map[ast.Expression]ast.Expression)
+	for !p.peekTokenIs(ast.RBRACE) {
+		p.nextToken()
+		key := p.parseExpression(LOWEST)
+		if !p.expectPeek(ast.COLON) {
+			return nil
+		}
+		p.nextToken()
+		value := p.parseExpression(LOWEST)
+		hash.Pairs[key] = value
+		if !p.peekTokenIs(ast.RBRACE) && !p.expectPeek(ast.COMMA) {
+			return nil
+		}
+	}
+	if !p.expectPeek(ast.RBRACE) {
+		return nil
+	}
+	return hash
 }
