@@ -644,8 +644,8 @@ func TestParsingHashLiteralsStringKeys(t *testing.T) {
 		t.Errorf("hash.Pairs has wrong length. got=%d", len(hash.Pairs))
 	}
 	expected := map[string]int64{
-		"one": 1,
-		"two": 2,
+		"one":   1,
+		"two":   2,
 		"three": 3,
 	}
 	for key, value := range hash.Pairs {

@@ -301,7 +301,7 @@ func evalStringInfixExpression(operator string, left, right Object) Object {
 func evalIndexExpression(left, index Object) Object {
 	switch {
 	case left.Type() == ARRAY_OBJ && index.Type() == INTEGER_OBJ:
-		return  evalArrayIndexExpression(left, index)
+		return evalArrayIndexExpression(left, index)
 	case left.Type() == HASH_OBJ:
 		return evalHashIndexExpression(left, index)
 	default:

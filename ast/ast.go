@@ -98,13 +98,13 @@ type StringLiteral struct {
 }
 
 type ArrayLiteral struct {
-	Token Token
+	Token    Token
 	Elements []Expression
 }
 
 type IndexExpression struct {
 	Token Token
-	Left Expression
+	Left  Expression
 	Index Expression
 }
 
@@ -259,11 +259,11 @@ func (ce *CallExpression) String() string {
 	return out.String()
 }
 
-func (sl *StringLiteral) expressionNode() {}
+func (sl *StringLiteral) expressionNode()      {}
 func (sl *StringLiteral) TokenLiteral() string { return sl.Token.Literal }
-func (sl *StringLiteral) String() string { return sl.Token.Literal }
+func (sl *StringLiteral) String() string       { return sl.Token.Literal }
 
-func (al *ArrayLiteral) expressionNode() {}
+func (al *ArrayLiteral) expressionNode()      {}
 func (al *ArrayLiteral) TokenLiteral() string { return al.Token.Literal }
 func (al *ArrayLiteral) String() string {
 	var out bytes.Buffer
@@ -277,7 +277,7 @@ func (al *ArrayLiteral) String() string {
 	return out.String()
 }
 
-func (ie *IndexExpression) expressionNode() {}
+func (ie *IndexExpression) expressionNode()      {}
 func (ie *IndexExpression) TokenLiteral() string { return ie.Token.Literal }
 func (ie *IndexExpression) String() string {
 	var out bytes.Buffer
@@ -289,7 +289,7 @@ func (ie *IndexExpression) String() string {
 	return out.String()
 }
 
-func (hl *HashLiteral) expressionNode() {}
+func (hl *HashLiteral) expressionNode()      {}
 func (hl *HashLiteral) TokenLiteral() string { return hl.Token.Literal }
 func (hl *HashLiteral) String() string {
 	var out bytes.Buffer

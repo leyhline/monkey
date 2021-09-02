@@ -3,9 +3,9 @@ package evaluator
 import (
 	"bytes"
 	"fmt"
+	"hash/fnv"
 	"leyhline.net/monkey/ast"
 	"strings"
-	"hash/fnv"
 )
 
 type ObjectType string
@@ -65,7 +65,7 @@ type Array struct {
 }
 
 type HashKey struct {
-	Type ObjectType
+	Type  ObjectType
 	Value uint64
 }
 
@@ -74,7 +74,7 @@ type Hashable interface {
 }
 
 type HashPair struct {
-	Key Object
+	Key   Object
 	Value Object
 }
 
@@ -136,10 +136,10 @@ func (f *Function) Inspect() string {
 }
 
 func (s *String) Type() ObjectType { return STRING_OBJ }
-func (s *String) Inspect() string { return s.Value }
+func (s *String) Inspect() string  { return s.Value }
 
 func (b *Builtin) Type() ObjectType { return BUILTIN_OBJ }
-func (b *Builtin) Inspect() string { return "builtin function" }
+func (b *Builtin) Inspect() string  { return "builtin function" }
 
 func (ao *Array) Type() ObjectType { return ARRAY_OBJ }
 func (ao *Array) Inspect() string {

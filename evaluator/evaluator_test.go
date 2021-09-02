@@ -296,7 +296,7 @@ func TestStringConcatenation(t *testing.T) {
 
 func TestBuiltinFunction(t *testing.T) {
 	tests := []struct {
-		input string
+		input    string
 		expected interface{}
 	}{
 		{`len("")`, 0},
@@ -346,7 +346,7 @@ func TestArrayLiterals(t *testing.T) {
 
 func TestArrayIndexExpressions(t *testing.T) {
 	tests := []struct {
-		input string
+		input    string
 		expected interface{}
 	}{
 		{"[1, 2, 3][0]", 1},
@@ -386,13 +386,13 @@ func TestHashLiterals(t *testing.T) {
 	if !ok {
 		t.Fatalf("Eval didn't return Hash. got=%T (%+v)", evaluated, evaluated)
 	}
-	expected := map[HashKey]int64 {
-		(&String{Value: "one"}).HashKey(): 1,
-		(&String{Value: "two"}).HashKey(): 2,
+	expected := map[HashKey]int64{
+		(&String{Value: "one"}).HashKey():   1,
+		(&String{Value: "two"}).HashKey():   2,
 		(&String{Value: "three"}).HashKey(): 3,
-		(&Integer{Value: 4}).HashKey(): 4,
-		TRUE.HashKey(): 5,
-		FALSE.HashKey(): 6,
+		(&Integer{Value: 4}).HashKey():      4,
+		TRUE.HashKey():                      5,
+		FALSE.HashKey():                     6,
 	}
 	if len(result.Pairs) != len(expected) {
 		t.Fatalf("Hash has wrong num of pairs. got=%d", len(result.Pairs))
@@ -408,7 +408,7 @@ func TestHashLiterals(t *testing.T) {
 
 func TestHashIndexExpressions(t *testing.T) {
 	tests := []struct {
-		input string
+		input    string
 		expected interface{}
 	}{
 		{`{"foo": 5}["foo"]`, 5},
